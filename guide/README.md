@@ -1,40 +1,54 @@
-# Litepaper
+# Lite Paper
 
-POD is short for Public on-Chain Database. POD is a community-driven organization built to solve what might be called the “on-chain data collaboration platform problem.”
+POD is short for Public On-chain Database. The goal of POD is to implement an on-chain data aggregation layer, which can provide an unified data query and collaboration entry of native on-chain businesses.
 
 ## Current Issues of on-chain data
 For on-chain interactive data, the goal of POD is to solve the following pain points.
 
 ### Fragmentation
-Data is scattered in different application contracts
-- [Chaotic]There is no data standard and no data standard infrastructure, so the data now usually meet local needs, it is difficult to classify or index the published data.Therefore, it is difficult to have extensive data-level collaboration.
+For smart contracts on the chain, there is no unified entry point to instantly obtain relevant data of an on-chain object. These data are now scattered in different contracts, it is hard to find,  to distinguish, and to collaboration with.
 
-### No abstraction layer
-- [No Aggregation layer]There is no way to perform collective operations based on sets.
-- [No Industry]The existing infrastructure cannot provide industry-level abstract aggregation capabilities. For example, object abstraction, service abstraction, and output abstraction can enable organizations in the same industry to provide standard service capabilities under the same framework.
-- [Entity-to-Entity interactive]Beforehand, need to know which or whom to have the relationship with.
-
-### Safety
-Currently, in most smart contracts, assets, logic, and data are mixed. Any change will lead to asset risk. This greatly affects the scalability and flexibility of the business.
+### Trusted third-party
+The data layer does not have a neutral and trusted third-party database product, which can meet the needs of chain-native multi-party data collaboration.
 
 ### PGC(Professionally-generated Content) level data management method
-At present, defining a type of data or publishing data on the blockchain requires professional blockchain knowledge and has the cost of smart contract development.
+
+It is a common demand to define a type of data or publish data on the blockchain, but the current cost is high and ordinary users cannot participate.
+This requires professional blockchain knowledge, and the time cost of smart contract development and auditing.
+
+### No abstraction layer
+
+Data fragmentation leads to the lack of data abstraction capabilities across the entire crypto network. Therefore, the definition of classes and attribute types cannot be implemented in the entire crypto network.
+
 ## Vision and Structure
-We believe that the complete WEB 3 = value collaboration infrastructure + data collaboration infrastructure. The mission of POD is to fill the gaps in the on-chain data collaboration infrastructure.
-POD is the data infrastructure layer, which can provide two functions.
+We believe that the complete WEB 3 = value collaboration infrastructure + data collaboration infrastructure. 
+
+To solve the above problems, we believe that the best product form is an on-chain native database. This is POD and it's mission is to fill the gaps in the on-chain data collaboration infrastructure. 
+
+POD mainly provides two functions at the ***entire crypto network level***.
+
 - [Data storage]User or smart contract can storage/query/manage data on POD. 
-- [Abstraction layer]User or smart contract can define/classify/verify/manage abstraction of  objects or concepts.
+- [Data definition]User or smart contract can define/classify/verify/manage a kind of data on POD.
 
 ### Structure [Star topology & Mesh topology]
-The current way of collaboration between smart contracts on the chain is based on a mesh topology. POD is aiming to providing a new way --- star topology. POD as the middleware, an on-chain database, , which can let different applications freely and safely collaborate on.
+The current way of collaboration between smart contracts on the chain is based on a mesh topology. POD is aiming to providing a new way --- star topology. POD as the neutral middleware, an on-chain database, which can let different applications freely and safely collaborate on.
 ![Alt text](../pic/structure.png)
 
 ### Where POD is
-The POD layer is between the object layer and the application layer. It is like a configuration file, provides a universal data manage method for the entire encryption ecology. It can allow any user or smart contract to add any data or description to any object on the chain, and to query.
-In addition, through the POD bridge, data intercommunication and rich asset intercommunication between different blockchains can be realized.
+
+#### By data eco system
+
+POD is a layer is between the object layer and the application layer. It is like a configuration file, provides a universal data manage method for the entire encryption ecology. It can allow any user or smart contract to add any data or description to any object on the chain, and to query.
+
+![](C:\code\docs2\pic\eco_structure.png)
+
+#### By crypto netwrok structure
+
+Through the POD bridge, the unification of data definition and data intercommunication between different blockchains can be realized.
 ![Alt text](../pic/layer.jpg)
 
 ### Features
+
 #### Public
 POD core only builds the infrastructure and tool chain for POD ecosystem while having no control over the data. About data on POD:
 - Permissionless: 

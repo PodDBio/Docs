@@ -2,13 +2,13 @@
 
 POD is short for Public On-chain Database. The goal of POD is to be the on-chain data collaboration center and build data ecology.
 
-## Current Issues of on-chain data
+## Issues
 POD aims to solve the following pain points of data interaction on the chain.
 
 ### Fragmentation
 For smart contracts on the chain, there is no unified entry point to instantly obtain relevant data of an on-chain object. These data are now scattered in different contracts, it is hard to find,  to distinguish, and to collaboration with. Therefore, the ability to abstract and standardize is also lost. This greatly reduces the value of the data.
 
-### No third-party platform
+### No third-party data platform
 At data layer, does not have a neutral and trusted third-party data platform, which can meet the needs of chain-native multi-party data collaboration.
 
 ### Cost
@@ -25,11 +25,12 @@ POD mainly provides two functions at the ***entire crypto network level***.
 - [Data storage]User or smart contract can storage/query/manage data on POD. 
 - [Data definition]User or smart contract can define/classify/verify/manage a kind of data on POD.
 
-### Structure [Star topology & Mesh topology]
-The current way of collaboration between smart contracts on the chain is based on a mesh topology. POD is aiming to providing a new way --- star topology. POD as the neutral middleware, an on-chain database, which can let different applications freely and safely collaborate on.
-<img src="../pic/structure.png" alt="Topology" style="zoom:170%;" />
+### Structure
+The current way of collaboration between smart contracts on the chain is based on a **Mesh Topology**. POD is aiming to providing a new way --- **Star Topology**. POD as the neutral middleware, an on-chain database, which can let different applications freely and safely collaborate on.
 
-### Where POD is
+![layer](../pic/structure.png)
+
+### Where is POD
 
 #### By data eco system
 
@@ -42,6 +43,7 @@ POD is a layer is between the object layer and the application layer. It is like
 #### By crypto network structure
 
 Through the POD network, the unification of data definitions between different chains can be realized. 
+
 ![layer](../pic/layer.jpg)
 
 ### Features

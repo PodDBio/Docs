@@ -1,1 +1,0 @@
-- [GUIDE](guide/README.md)

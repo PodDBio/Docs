@@ -1,3 +1,2 @@
-- [LitePaper](/)
-- [API](/api/README.md)
-- [Examples](/examples/Readme.md)
+- [LEARN](/)
+- [BUILD](/build)

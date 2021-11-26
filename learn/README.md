@@ -34,19 +34,19 @@ Compare with the other layers
 
 [**TheGraph**] On-chain data aggregation services to off-chain applications
 
-[**ChainLink**]Off-chain data aggregation services to on-chain contracts
+[**ChainLink**] Off-chain data aggregation services to on-chain contracts
 
 [**POD**] On-chain data aggregation services to on-chain contracts
 
 Through the POD layer, the unification of data definitions between different chains can be realized. 
 
-![layer](../pic/layer.jpg)
+![layer](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/layer.jpg)
 
 #### By data eco system
 
 POD is a layer is between the object layer and the application layer. It is like a configuration file, provides a universal data manage method for the entire encryption ecology. It can allow any user or smart contract to add any data or description to any object on the chain, and to query. This will bring cross-application and unified, accurate identification, business segmentation, and abstract layer collaboration capabilities to upper-level applications.
 
-![eco_structure](../pic/eco_structure.png)
+![eco_structure](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/eco_structure.png)
 
 
 

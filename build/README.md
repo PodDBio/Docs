@@ -1,3 +1,4 @@
+
 # How to use PodDB in contract?
 
 PodDB is an on-chain database, and easy use of PodDB in contract is a basic design goal of PodDB. For ease of understanding, let's use an example of user reputation sharing to illustrate how to use PodDB in a contract.
@@ -89,7 +90,7 @@ Please refer to the PodDB design documentation for more information. Typically, 
 
 For simplicity, ReputationTagClass does not have an Agent set up, and can be set up again if necessary.
 
-## 2. Write data
+## Write data
 
 The basic data unit in TagClass is Tag, and the operation of writing data is called SetTag. If the same TagClass is repeatedly written to the same user, the following will overwrite the previous data.
 

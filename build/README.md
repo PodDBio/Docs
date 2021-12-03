@@ -221,4 +221,3 @@ function deprecatedReputationTagClass() public onlyOwner {
 Of course,  The deprecated TagClass can be set to normal state through UpdateTagClass.
 
 The complete code can be found in [PodDB-Example]("https://github.com/0xBlueCat/poddb-example") repo.
-

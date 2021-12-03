@@ -220,4 +220,4 @@ function deprecatedReputationTagClass() public onlyOwner {
 
 Of course,  The deprecated TagClass can be set to normal state through UpdateTagClass.
 
-The complete code can be found in [https://github.com/PodDBio/poddb-evm-example.git]("https://github.com/PodDBio/poddb-evm-example.git") repo.
+The complete code can be found in [poddb-evm-example](https://github.com/PodDBio/poddb-evm-example.git) repo.

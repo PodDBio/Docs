@@ -1,4 +1,3 @@
-
 # How to use PodDB in contract?
 
 PodDB is an on-chain database, and easy use of PodDB in contract is a basic design goal of PodDB. For ease of understanding, let's use an example of user reputation sharing to illustrate how to use PodDB in a contract.

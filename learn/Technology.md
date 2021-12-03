@@ -1,36 +1,26 @@
 # PodDB
 
-## 1. What is PodDB?
-
-PodDB is a public database on the blockchain, which makes it easy to share data between contracts. At the same time, PodDB is also object-oriented.
-
-All data in the storage pod must belong to an object. This object can be an external account address(EOA), a contract address, or an NFT, or even another TagClass (more about TagClass will be described later).
-
-## 2. What is the mission of PodDB?
-
-PodDB's mission is to be the data layer infrastructure for Web 3.0, empowering contract-to-contract, chain-to-chain collaboration.
-
-## 3. PodDB technology architecture
+## 1. PodDB technology architecture
 
 PodDB mainly contains two components: on-chain contract and off-chain data indexer;
 
 ![PodDB architecture](https://github.com/0xBlueCat/docs-archive/blob/master/imgs/poddb-arch.png?raw=true)
 
-### 3.1. Chain contract part
+### 1.1. Chain contract part
 
 PodDB is an on-chain database where data is serialized and stored in contracts.
 
 Therefore, the on-chain contract provides functions such as data definition, data storage and data external access interface;
 
-### 3.2. Off-chain data indexer
+### 1.2. Off-chain data indexer
 
 The data of PodDB will be stored off-chain at the same time, and various indexes will be established according to the logical relationship of the data.
 
 dApp can query all kinds of data through the data indexer under the chain.
 
-## 4. The core data structure of PodDB
+## 2. The core data structure of PodDB
 
-### 4.1 TagObject
+### 2.1 TagObject
 
 TagObject is the data body object in PodDB, and any data in PodDB must belong to a TagObject.
 
@@ -52,7 +42,7 @@ A TagObject can be an external address (EOA) in an Eth, a contract address, or a
 
 3. If the TagObject is a TagClass, you only need to cast the TagClassId to an address, set the TagObject Address field, and keep the TokenId field at 0;
 
-### 4.2 TagAgent
+### 2.2 TagAgent
 
 The TagAgent can proxy the write-permissions of the TagClass Owner.
 
@@ -74,7 +64,7 @@ There are two types of TagAgent:
 1. Address types, including EOA and contract addresses;
 2. TagClass type, that is, the address (EOA or contract) that owns the Tag under the TagClass;
 
-### 4.3 TagClass & TagClassInfo
+### 2.3 TagClass & TagClassInfo
 
 TagClass is equivalent to a table in a relational database, representing a certain type of data.
 
@@ -102,7 +92,7 @@ struct TagClassInfo {
 
 ```
 
-#### 4.3.1. Field definition
+#### 2.3.1. Field definition
 
 The data in PodDB is structured, and all data must conform to the field definitions in its TagClass.
 Currently, the following field types are supported in PodDB:
@@ -160,7 +150,7 @@ The field names defined by TagFieldNames are separated by commas, such as: "Name
 
 The data stored in the Pod DB can be parsed according to the FieldTypes definition in its TagClass.
 
-#### 4.3.2. Read and write permissions
+#### 2.3.2. Read and write permissions
 
 There are no restrictions on the read-permissions in PodDB. Any contract can read any data written in PodDB.
 
@@ -174,7 +164,7 @@ Owner can set an agent to write. The agent can be an external address(EOA), or a
 
 ![PodDB-write-permission](https://github.com/0xBlueCat/docs-archive/blob/master/imgs/poddb-write-auth.png?raw=true)
 
-#### 4.3.3. special flags
+#### 2.3.3. special flags
 
 The Flags field of the TagClass defines some tags that can change some default behavior of PodDB.
 
@@ -202,7 +192,7 @@ it is also impossible to check whether this TagObject has this Tag in the contra
 
 Tag with Multi-Issue flag set can only be queried and used off-chain.
 
-### 4.4 Tag
+### 2.4 Tag
 
 Tag is the data under the definition of TagClass, which is equivalent to rows in a relational database.
 
@@ -227,17 +217,17 @@ ExpiredAt is the expired time of the data in second. Zero means never expires.
 
 Note that the modifier and deleter of the Tag must have the data write permissions defined by the TagClass.
 
-#### 4.4.1 Expired time
+#### 2.4.1 Expired time
 
 When creating a Tag, you can set an expiration time in seconds. If it is not updated before it expires, the Tag will automatically expire.
 
 ExpiredTime is a time value in seconds and has a length of 4 bytes. If the ExpiredTime is 0, it means will never expire.
 
-#### 4.4.2 Wildcard
+#### 2.4.2 Wildcard
 
 You can use wildcard flag to create the same tag for all NFTs under a contract instead of creating them individually, which is very friendly for some kind of factory NFT contract.
 
-## 5. The core interface of PodDB
+## 3. The core interface of PodDB
 
 ```solidity
 interface PodDB {
@@ -282,7 +272,7 @@ interface PodDB {
 
 ```
 
-## 6. Data serialization
+## 4. Data serialization
 
 PodDB provides two Buffers to implement data serialization and deserialization operations, namely WriteBuffer and ReadBuffer.
 
@@ -329,21 +319,3 @@ contract Serialization {
 }
 
 ```
-
-## 7. What value can PodDB bring?
-
-### 7.1 Data Abstraction
-
-PodDB can provide a kind of data abstraction through TagClass.
-
-It can verify whether TagObject owns this Tag to pass certain functions, such as operation rights, user rights, etc.;
-
-### 7.2 Separation of Computing and Storage
-
-Using PodDB, you can define a TagClass in one contract, generate a Tag, and then read the Tag in another contract.
-
-This kind of putting changeable data generation logic in one contract and stable data reading logic in another contract can make the upgrade of the contract simpler and more adaptable to external changes.
-
-### 7.3. User-generated data
-
-With PodDB's client tools, users can generate and manage some kind of structured contract data without contract programming, which provides great convenience.

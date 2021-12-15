@@ -16,7 +16,7 @@ The year 2021 marks an era of metaverse. Facebook renamed itself “Meta”, Mic
 
 The metaverse boom triggers the growth of activities in entertainment, social networking, e-commerce, content creation, etc., which brings the increase of blockchain users, on-chain assets, businesses. In the blockchain world, these are represented by on-chain entities. An on-chain entity refers to a specific existence on the blockchain that can be identified via its address or asset ID, such as an address, an NFT or a contract. The data providing information about these entities are their metadata. 
 
-Metaverse participants can include not only humans but also machines like programs, smart contracts and offline machines (e.g., ticket vending machines) Hence, to ensure a smooth data collaboration experience, metadata should be not only human-readable, but also machine-readable. Therefore, it is important to decide how we store, organize, manage and use the metadata.
+Metaverse participants can include not only humans but also machines like programs, smart contracts and real machines (e.g., ticket vending machines) Hence, to ensure a smooth data collaboration experience, metadata should be not only human-readable, but also machine-readable. Therefore, it is important to decide how we store, organize, manage and use the metadata.
 
 ### Obstacles 
 
@@ -24,9 +24,7 @@ There are a few obstacles that interfere metadata utilization.
 
 
 
-#### No separated storage spaces 
-
- 
+#### Object with no separated storage spaces 
 
 1. On-chain entities do not have their own storage space. The smallest unit for on-chain data management is the contract, and the relationship between objects and data in the contract is ambiguous. There is no universal method to relate data to an entity.
 
@@ -34,7 +32,7 @@ There are a few obstacles that interfere metadata utilization.
 
 3. Metadata does not have their own security boundaries. Business logics of a contract decide the publication and modification of metadata.
 
-4. Apps cannot interact directly with metadata freely.
+4. Users(people and machine) cannot interact directly with metadata freely.
 
  
 
@@ -61,7 +59,7 @@ We believe that we need a third-party, neutral and on-chain metadata database to
 
  POD provides a separate data storage space for each on-chain entity. Using this storage space, POD implements a direct and non-transferable bondage between entities and metadata at the low level, providing a uniform metadata encoding method, clear security boundaries, and a unified way to interact with metadata.
 
- At the high level, POD provides UGC-level metadata interaction and management tools, which allow anyone to add any metadata description to any object on the blockchain.
+ At the high level, POD provides UGC-level metadata interaction and management tools, It allows machines or users to easily interact with any object on the blockchain, such as new, modify, manage, and query metadata.
 
 For example, it will be low-cost and easy to add stories to NFTs, add identities, and other metadata attributes.
 
@@ -69,17 +67,15 @@ For example, it will be low-cost and easy to add stories to NFTs, add identities
 
 ### Metadata Classification 
 
-POD provides a space for binding descriptions to metadata, enabling the ability to define and categorize metadata, through which users can define 3 types of metadata:
-
- 
+POD provides an ability to add description to metadata, AKA, can define metadata of metadata, which enabling the ability to define and categorize metadata, through which users can define 3 types of metadata description:
 
 1. Data categories
 
-   Let’s say we want to define some NFTs as “Spaceships”. We can define metadata with certain properties to have the attribute "spaceship", then give these NFTs the tag so we know these NFTs are in the “spaceship” category.
+   Let’s say we want to define some NFTs as “Spaceships”. We can define a metadata type, let its metadata type name=Spaceships, and then distribute this metadata to this type of object to complete the mark on the chain, so that we know that these NFTs belong to the "spaceship" category.
 
 2. Data attributes 
 
-   For example, we can define metadata with values in a certain range to have the “Flight speed” attribute so all users can align their understanding regarding these values.
+   For example, we can define metadata with values to have the “Flight speed” attribute so all users can align their understanding regarding these values.
 
 3. Data Relationships
 
@@ -91,11 +87,9 @@ Data in one category can be considered as one type of metadata expressing the sa
 
 ### Cross-platform Consistency
 
-First, POD database is on the blockchain. Metadata classification and access are enabled by deploying contracts on different blockchain networks to ensure data definition methods and low-level data structures are following the same standard, so as to ensure the consistency of metadata using in different contracts and apps. Second, POD offers a POD-Bridge to ensure the interoperability of metadata and the consistency of their classifications. 
+First, POD database is on the blockchain. Metadata access and type define are enabled by deploying contracts on different blockchain networks to ensure data definition methods and low-level data structures are following the same standard, so as to ensure the consistency of metadata using in different contracts and apps. Synchronize single-chain metadata description to different chains to achieve consistent deployment of multi-chain data description.
 
 ## Benefits
-
- 
 
 ### For Data Providers
 

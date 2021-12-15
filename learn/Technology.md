@@ -1,102 +1,90 @@
-# PodDB
+# 1. Architecture
 
-## 1. PodDB technology architecture
-
-PodDB mainly contains two components: on-chain contract and off-chain data indexer;
+POD’s two major components are the on-chain contract and the off-chain data indexer. The picture below illustrates how they interact:
 
 ![PodDB architecture](https://github.com/0xBlueCat/docs-archive/blob/master/imgs/poddb-arch.png?raw=true)
 
-### 1.1. Chain contract part
+## 1.1. On-chain Contract
 
-PodDB is an on-chain database where data is serialized and stored in contracts.
+The on-chain contract serves as a database where data is stored after being serialized. It provides functions and interfaces to define, store and access data.
 
-Therefore, the on-chain contract provides functions such as data definition, data storage and data external access interface;
+## 1.2. Off-chain Data Indexer
 
-### 1.2. Off-chain data indexer
+Data in on-chain contracts are synchronized to the off-chain indexer. dApps can query all kinds of data through the off-chain data indexer.
 
-The data of PodDB will be stored off-chain at the same time, and various indexes will be established according to the logical relationship of the data.
+# 2. Data Storage Structure
 
-dApp can query all kinds of data through the data indexer under the chain.
+In POD, each single data point is stored in a Tag. You can categorize Tags using a TagClass. At the same time, each Tag is linked to a TagObject to indicate which on-chain entity that the data point is about. The below topics in this section will explain how these elements work together.
 
-## 2. The core data structure of PodDB
+## 2.1 TagObject <span id="tagobject"></span>
 
-### 2.1 TagObject
-
-TagObject is the data body object in PodDB, and any data in PodDB must belong to a TagObject.
+A TagObject represents an on-chain entity. Any data must be related to a TagObject. This is the structure of a TagObject:
 
 ```solidity
 struct TagObject {
   address Address;
   uint256 TokenId;
 }
-
 ```
 
-A TagObject can be an external address (EOA) in an Eth, a contract address, or an ERC721 NFT. It is worth noting that a TagClass is also a TagObject.
+A TagObject can be about an externally owned account (EOA) on Ethereum, a contract account (CA), or an ERC721 NFT. It is worth noting that it’s also possible to create a TagObject for a TagClass.
 
-1. If the TagObject is an EOA address, or a contract address, just set the Address field in the TagObject and keep the TokenId at 0;
+1. When you create a TagObject for an EOA address, or a CA address, fill the `Address` field with the corresponding address and fill the `TokenId` field with 0;
 
-2. If the TagObject is an ERC721 NFT, you need to set the ERC721 contract address on the Address field and the TokenId of the NFT on the TokenId.
+2. When you create a TagObject for an ERC721 NFT, fill the `Address` field with the  ERC721 contract address and fill the `TokenId` field with the NFT TokenId. Please note that the TokenId of an NFT cannot be 0, otherwise the TagObject will be regarded as an EOA, or a CA address;
 
-   The main requirement is that the TokenId of the NFT cannot be 0, otherwise the TagObject will be regarded as an EOA, a contract address;
+3. When you create a TagObject for a TagClass, convert the TagClassId to an address and fill the `Address` field, then fill the `TokenId` field with 0.
 
-3. If the TagObject is a TagClass, you only need to cast the TagClassId to an address, set the TagObject Address field, and keep the TokenId field at 0;
+## 2.2 TagClass & TagClassInfo <span id="tagclass"></span>
 
-### 2.2 TagAgent
+A TagClass is equivalent to a table in a relational database. A collection of Tags forms a TagClass.
 
-The TagAgent can proxy the write-permissions of the TagClass Owner.
+You can define field names, field types, and write permissions of a TagClass.
 
-```solidity
-enum AgentType {
-  Address, // user address or contract address,
-  Tag //address which had this tag
-}
+TagClassInfo provides additional information to describe a TagClass, such as the Tag name, descriptions, etc.
 
-struct TagAgent {
-  AgentType Type;
-  bytes20 Agent;
-}
-
-```
-
-There are two types of TagAgent:
-
-1. Address types, including EOA and contract addresses;
-2. TagClass type, that is, the address (EOA or contract) that owns the Tag under the TagClass;
-
-### 2.3 TagClass & TagClassInfo
-
-TagClass is equivalent to a table in a relational database, representing a certain type of data.
-
-TagClass defines the field name, the field type, the write-permission and the expired time, etc.
-
-TagClassInfo is some additional description information used to describe TagClass, such as Tag name, description, etc.
+This is the structure of TagClass and TagClassInfo:
 
 ```solidity
 struct TagClass {
-  bytes20 ClassId;
-  uint8 Version;
-  address Owner;
-  bytes FieldTypes;
-  uint8 Flags;
-  TagAgent agent;
+   bytes20 ClassId;
+   uint8 Version;
+   address Owner;
+   bytes FieldTypes;
+   uint8 Flags;
+   TagAgent agent;
 }
 
 struct TagClassInfo {
-  bytes20 ClassId;
-  uint8 Version;
-  string TagName;
-  string FieldNames;
-  string Desc;
+   bytes20 ClassId;
+   uint8 Version;
+   string TagName;
+   string FieldNames;
+   string Desc;
 }
-
 ```
 
-#### 4.3.1. Field definition
+| Field | Type | Description |
+| ------------- | ------------- |------------- |
+| ClassId | `bytes20` | The ID of this TagClass |
+| Version |`uint8`| The version of this TagClass|
+| Owner |`address`| TagClass Owner's address|
+| FieldTypes |`bytes`| Hexadecimal numbers representing field types supported by this TagClass|
+| Flags |`uint8`| "0" or "0x80", see details below|
+| Agent |`TagAgent`| TagClass Agent's Type and Address |
+| TagName |`string`| The name of this TagClass |
+| FieldNames |`string`| Names of fields allowed to store in this TagClass|
+| Desc |`string`| Descriptions of this TagClass|
 
-The data in PodDB is structured, and all data must conform to the field definitions in its TagClass.
-Currently, the following field types are supported in PodDB:
+**Owner**
 
+The TagClass Owner is the address that created the TagClass. By default, the Owner has write-permissions to manage the TagClass, modify or create Tags, and so on. The Owner can transfer permissions to another address.
+
+**FieldTypes**
+
+The data stored in a Tag must conform to the data type defined in the TagClass that this Tag belongs to. POD supports the following data types:
+
+<span id="fieldtype"></span>
 ```solidity
 enum TagFieldType {
   Bool, //= 0
@@ -124,152 +112,90 @@ enum TagFieldType {
 }
 
 ```
+For example:
 
-TagClass supports basic types such as Bool, uint256, int256, bytes, string, and Array composite types.
+1. `0x0103` represents two values, a `bool` and a `UInt16`; 
+2. `0x1507` represents an `Int8Array`;
 
-Array types must be followed by an underlying data type when defining array types, and array types cannot be nested, that is, multidimensional array types cannot be defined.
+Please note:
 
-Bytes and String are actually Byte array types. Because Bytes and String are more commonly used, they are specially defined for ease of processing.
+1. Arrays must be followed by an underlying data type, and cannot be nested, which means you cannot define a multidimensional array in POD.
 
-There is no essential difference between Bytes and String, where Bytes used to represent bytecode arrays and String is used to represent human-readable UTF-8 encoded strings.
+2. The `bytes` type and `string` type are to store byte arrays. Because `bytes` and `string` are more commonly used, they are defined separately for ease of processing. The only difference between `bytes` and `string` is that `bytes` is used to represent raw byte arrays and `string` is used to represent human-readable UTF-8 encoded strings.
 
-**Example**
-`0x0103 represents two fields, the type is Bool type and Uint16 type;`
-`0x1507 represents an Int8 array type;`
+3. If the type of field is `bytes`, `string` or `array`, you need to add an Uint16 value to indicate the length before this data when encoding it, so that the decoder can parse the data correctly. For example, the encoded `Hello World` string is: `0x000b48656c6c6f20576f726c64`.
 
-Note that if a field is of type Bytes, String, and Array, when encoding specific data,
-you need to add an Uint16 type of length data in front of the data so that the decoder can correctly parse the data.
+4. Since a UInt16 value takes 2 bytes, the length of `bytes`, `string`, and `number` values should not exceed 65535.
 
-`For example, the string "Hello World" needs to be encoded as: 0x000b48656c6c6f20576f726c64`
+5. You can define multiple data types for a TagClass, which means this field can hold multiple values. The number of values of this field, and the number of values in the `FieldNames` should be the same. You don't need to separate these values.
 
-The length of two bytes indicates that the length of Bytes, String, and number types cannot exceed 65535.
+**FieldNames**
 
-The number of fields defined by FieldTypes in TagClass must correspond to the number of field names defined by FieldNames in TagClaasInfo.
+You can define multiple field names for a TagClass, which means this field can hold multiple values. The number of values of this field, and the number of values in the `FieldTypes` should be the same.
+Please separate these values with commas, for example: "Name,Age".
 
-The field names defined by TagFieldNames are separated by commas, such as: "Name,Age".
+**Flags**
 
-The data stored in the Pod DB can be parsed according to the FieldTypes definition in its TagClass.
+POD defines TagClass flag values for changing some default actions in POD. Technically there can be up to 8 default flag values. For now only 1 flag has been defined: the Deprecated flag.
 
-#### 2.3.2. Read and write permissions
+Once created, the TagClass cannot be deleted, but it can be deprecated using the Deprecated flag. You can view a deprecated TagClass, and view or delete the Tags of the TagClass. But you cannot create a new Tag and modify existing Tags.
 
-There are no restrictions on the read-permissions in PodDB. Any contract can read any data written in PodDB.
+Include `0x80` in this field if you want to deprecate the TagClass, otherwise include 0.
 
-PodDB only controls the write-permissions of the data.
+## 2.3 TagAgent  <span id="tagagent"></span>
 
-In PodDB, each TagClass has an Owner, and only this Owner has permission to write or modify data under the tables defined by the TagClass.
+A TagClass Owner can delegate write permissions to a TagAgent without affecting the Owner’s permissions. However, a TagAgent can only create and modify Tags in this TagClass, but cannot modify the TagClass.
 
-At the same time, the Owner can also modify some definitions of some TagClass.
-
-Owner can set an agent to write. The agent can be an external address(EOA), or a contract, or even another TagClassId, any address that has the Tag under this TagClassId has write-permission.
-
-![PodDB-write-permission](https://github.com/0xBlueCat/docs-archive/blob/master/imgs/poddb-write-auth.png?raw=true)
-
-#### 2.3.3. special flags
-
-The Flags field of the TagClass defines some flags that can change some default behavior of PodDB.
-
-The Flags field is an Uint8 type and can have up to 8 flags. Currently, there is only 1 flags used:
-
-`1.0X80 is the Deprecated flag;`
-
-By, or ("or") can be combined with '|' operator.
-
-**Deprecated flag**
-
-A TagClass with Deprecated flag indicates that it has expired.
-
-You can view and delete those Tags under this TagClass, but you cannot create and modify those Tags.
-
-### 2.4 Tag
-
-Tag is the data under the definition of TagClass, which is equivalent to rows in a relational database.
+There’s no restriction on reading data. Any contract can read any data written in POD. Only data writing is restricted with different levels of permissions.
 
 ```solidity
-struct Tag {
-  bytes20 TagId;
-  uint8 Version;
-  bytes20 ClassId;
-  bytes Data;
-  uint32 ExpiredAt;
+enum AgentType {
+  Address, // user address or contract address,
+  Tag //address which had this tag
+}
+
+struct TagAgent {
+  AgentType Type;
+  bytes20 Agent;
 }
 
 ```
 
-TagId is the unique flag of the Tag, generated by the TagClass ID and TagObject.
+There are two types of TagAgent:
 
-ClassId is TagClassId;
+1.  Address: an EOA, or a CA address;
+2.  TagClass: an address (EOA or CA) that owns the Tag in this TagClass.
 
-Data is the data actually stored by Tag, and the encoding of the data conforms to the specification defined by the FieldTypes field in TagClass;
+## 2.4 Tag
 
-ExpiredAt is the expired time of the data in second. Zero means never expires.
-
-Note that the modifier and deleter of the Tag must have the data write permissions defined by the TagClass.
-
-#### 2.4.1 Expired time
-
-When creating a Tag, you can set an expiration time in seconds. If it is not updated before it expires, the Tag will automatically expire.
-
-ExpiredTime is a time value in seconds and has a length of 4 bytes. If the ExpiredTime is 0, it means will never expire.
-
-#### 2.4.2 Wildcard
-
-You can use wildcard flag to create the same tag for all NFTs under a contract instead of creating them individually, which is very friendly for some kind of factory NFT contract.
-
-## 3. The core interface of PodDB
-
-```solidity
-interface PodDB {
-  //crate a new TagClass
-  function newTagClass(
-    string calldata tagName,
-    string calldata fieldNames,
-    bytes calldata fieldTypes,
-    string calldata desc,
-    uint8 flags,
-    TagAgent calldata agent
-  ) external returns (bytes20);
-
-  //set tag
-  //flags 1:wildcard
-  function setTag(
-    bytes20 tagClassId,
-    TagObject calldata object,
-    bytes calldata data,
-    uint32 expiredTime,
-    uint8 flags
-  ) external returns (bytes20);
-
-  //get tags via TagObject
-  function getTagByObject(bytes20 tagClassId, TagObject calldata object)
-    external
-    view
-    returns (Tag memory tag, bool valid);
-
-  //check whether TagObject has a tag of TagClass
-  function hasTag(bytes20 tagClassId, TagObject calldata object)
-    external
-    view
-    returns (bool valid);
-
-  //delete tag
-  function deleteTag(
-    bytes20 tagId,
-    bytes20 tagClassId,
-    TagObject calldata object
-  ) external returns (bool success);
-}
+A Tag is a data record contained in a TagClass, which is equivalent to a row in a relational database.
 
 ```
+CODE
+```
+| Field | Type | Description |
+| ------------- | ------------- |------------- |
+| TagId | `bytes20` | An ID generated using the TagClass ID and TagObject which this Tag belongs to |
+| Version | `uint8` | Version of the Tag |
+| ClassId | `bytes20` | ClassId of the TagClass that this Tag belongs to|
+| Data | `bytes` | The serialized data point |
+| ExpiredAt | `uint32` | A 4-byte value indicating expiration time; or "0" meaning never expires|
 
-## 4. Data serialization
+**Flags**
 
-PodDB provides two Buffers to implement data serialization and deserialization operations, namely WriteBuffer and ReadBuffer.
+When creating a Tag, it’s possible to set a flag variable for the Tag. For now only 1 flag has been defined by POD out of 8: the **Wildcard flag**.
 
-For example, there is a TagClass that defines a certain user identity.
+By default, a Tag can be related to only one TagObject, such as an NFT. By using the Wildcard flag you can relate a Tag to multiple TagObjects which represent all NFTs of one single contract. This is particularly helpful when you store data of NFTs generated using a contract factory pattern.
 
-The field name is "Id,Name,RegisterTime", and the field type is "bytes32,String,Uint32".
+Include `0x01` if you want to set the Wildcard Tag, otherwise include `0`.
 
-The serialization and deserialization codes are as follows:
+# 3. Data serialization  <span id="serialize"></span>
+
+POD offers the `WriteBuffer` and `ReadBuffer` to implement data serialization and deserialization. WriteBuffer is a bytes buffer that can be dynamically expanded.
+
+For example, there is a TagClass containing user identity data. The `FieldNames` is "Id,Name,RegisterTime", and the `FieldTypes` is "bytes32,String,Uint32".
+
+The code for serialization and deserialization is:
 
 ```solidity
 contract Serialization {
@@ -288,7 +214,7 @@ contract Serialization {
       .writeString(name)
       .writeUint32(registerTime); //serialize id //serialize name //serialize registerTime
     Bytes memory data = wBuf.getBytes();
-    Return data;
+    return data;
   }
 
   function deserialize(bytes calldata data)
@@ -304,8 +230,7 @@ contract Serialization {
     id = rBuf.readBytes32(); //deserialize id;
     name = rBuf.readString(); //deserialize name;
     registerTime = rBuf.readUint32(); //deserialize registerTime;
-    Return(id, name, registerTime);
+    return(id, name, registerTime);
   }
 }
-
 ```

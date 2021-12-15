@@ -1,93 +1,123 @@
 # Lite Paper
 
-## What is PodDB
-POD is short for Public On-chain Database, it is a tool of the data infrastructure, which allows easy sharing of data between smart contracts. The goal of POD is to be the on-chain data collaboration infrastructure and promote the development of the data ecology.
+## Introduction
 
-## Issues we found
-We found several problems in data interaction between smart contracts
+POD is a database built across various blockchain networks that serves as a common data environment to store on-chain entities’ metadata. 
 
-### Hard to find
-There is no unified entry point for real-time access to data on the chain. At present, data is fragmented, they are scattered in different contracts and chains, there is no index, it is difficult to find, associate, which makes it hard to collaborate on data.
+POD aims to provide separate metadata storage spaces for each on-chain entity, a public space for storing descriptions of various metadata, and a data-centric middleware to ensure the consistency of data from different data environments. 
 
-### Hard to store
-For data service providers, smart contracts need to be developed, and even knowledge of different chains needs to be learned in order to provide multi-chain data services. This should not be the entry cost of the data source.
-For data collaboration, building a multilateral and credible data environment is the cost of collaboration.
+We hope to establish an infrastructure for blockchain data collaboration and become the engine that drives the growth of the ecosystem.
 
-### Hard to collaboration
-The current data environment is complex, such as store and query interfaces, data encoding methods, permission control methods, notification methods, etc., which will bring application costs to adopters.
+## Current Landscape
 
-## Vision and Structure
-In response to the above problems, we believe that the best product form is a native, neutral third-party database on the chain. Aggregate data, integrate storage systems, and provide UGC(User Generated Content)-level tools. Let POD users can find the data they want, make data storage simpler and cheaper, and make collaboration convenient and easy to adopt.
+### Background 
 
-The mission of POD is to be the infrastructure for data collaboration on the chain.
+The year 2021 marks an era of metaverse. Facebook renamed itself “Meta”, Microsoft and Nvidia also announced their metaverse strategies. 
 
-POD mainly provides two functions.
+The metaverse boom triggers the growth of activities in entertainment, social networking, e-commerce, content creation, etc., which brings the increase of blockchain users, on-chain assets, businesses. In the blockchain world, these are represented by on-chain entities. An on-chain entity refers to a specific existence on the blockchain that can be identified via its address or asset ID, such as an address, an NFT or a contract. The data providing information about these entities are their metadata. 
 
-- [Data storage]User or smart contract can storage/query/manage data on POD. 
-- [Data definition]User or smart contract can define/classify/verify/manage a kind of data on POD.
+Metaverse participants can include not only humans but also machines like programs, smart contracts and offline machines (e.g., ticket vending machines) Hence, to ensure a smooth data collaboration experience, metadata should be not only human-readable, but also machine-readable. Therefore, it is important to decide how we store, organize, manage and use the metadata.
 
-### Where is POD
+### Obstacles 
 
-#### By Layer
-
-Compare with the other layers
-
-[**TheGraph**] On-chain data aggregation services to off-chain applications
-
-[**ChainLink**] Off-chain data aggregation services to on-chain contracts
-
-[**POD**] On-chain data aggregation services to on-chain contracts
-
-Through the POD layer, the unification of data definitions between different chains can be realized. 
-
-![layer](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/layer.jpg)
-
-#### By data eco system
-
-POD is a layer is between the object layer and the application layer. It is like a configuration file, provides a universal data manage method for the entire encryption ecology. It can allow any user or smart contract to add any data or description to any object on the chain, and to query. This will bring cross-application and unified, accurate identification, business segmentation, and abstract layer collaboration capabilities to upper-level applications.
-
-![eco_structure](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/eco_structure.png)
+There are a few obstacles that interfere metadata utilization. 
 
 
 
-## Features
-### Database
-POD is a brand new blockchain database model designed according to the characteristics of the blockchain. Through the POD database, users can define datasets, manage datasets, publish data, update data, query data, etc.
+#### No separated storage spaces 
 
-### Object-oriented
-The data in pod must belong to an object. This object could be an Externally Owned Account(EOA), a smart contract, or an NFT, or any only thing on the chain. By this, the associated data of the object can also be retrieved through the POD.
+ 
 
-### Neutral Third-party Platform
-POD is a community-driven organization. POD core only builds the infrastructure and tool chain for POD ecosystem while having no control and no effect over the data.
-- Permissionless: 
-  + [Write]Anyone or any smart contract can define or publish any data of any on-chain object.
-  + [Read]Anyone or any smart contract can reference any data of any on-chain object.
-- Customizable permission management: 
-  + When user define a certain type of data, The dataset owner can customize the data management rules. Such as who can issue, when can issue, how to issue, whether can modify, who can modify, how to modify etc., If necessary, dataset owner also can set the rules to be editable. But all of these are public, verifiable, and traceable on the chain.
+1. On-chain entities do not have their own storage space. The smallest unit for on-chain data management is the contract, and the relationship between objects and data in the contract is ambiguous. There is no universal method to relate data to an entity.
+
+2. Metadata are scattered in contracts. It is hard to collect all metadata about a certain entity. 
+
+3. Metadata does not have their own security boundaries. Business logics of a contract decide the publication and modification of metadata.
+
+4. Apps cannot interact directly with metadata freely.
+
+ 
+
+#### Hard to distinguish
+
+It is not possible to tell the difference between various metadata of the same entity, what meanings they convey and if there are metadata about one entity can be regarded as in the same metric system. 
+
+ 
+
+#### No consistency of metadata 
+
+Consistency refers to the consistency in the method of defining metadata types, interpreting metadata, and interacting with the metadata. It is not possible to guarantee the consistency among different contracts, apps and blockchains.
+
+
+Due to the above obstacles, metadata are not yet interoperable. Interoperability and collaboration based on metadata is rarely seen, which hinders entity categorization, business division, and industry standardization. We need a new metadata infrastructure to solve these problems.
+
+## POD’s Solution
+
+We believe that we need a third-party, neutral and on-chain metadata database to tackle these obstacles. 
+
+
+
+### Metadata storage based on entities 
+
+ POD provides a separate data storage space for each on-chain entity. Using this storage space, POD implements a direct and non-transferable bondage between entities and metadata at the low level, providing a uniform metadata encoding method, clear security boundaries, and a unified way to interact with metadata.
+
+ At the high level, POD provides UGC-level metadata interaction and management tools, which allow anyone to add any metadata description to any object on the blockchain.
+
+For example, it will be low-cost and easy to add stories to NFTs, add identities, and other metadata attributes.
+
+
+
+### Metadata Classification 
+
+POD provides a space for binding descriptions to metadata, enabling the ability to define and categorize metadata, through which users can define 3 types of metadata:
+
+ 
+
+1. Data categories
+
+   Let’s say we want to define some NFTs as “Spaceships”. We can define metadata with certain properties to have the attribute "spaceship", then give these NFTs the tag so we know these NFTs are in the “spaceship” category.
+
+2. Data attributes 
+
+   For example, we can define metadata with values in a certain range to have the “Flight speed” attribute so all users can align their understanding regarding these values.
+
+3. Data Relationships
+
+   POD allows users to define and establish relationships between entities. For example, the relationship between an address and an NFT avatar with the name of "My Avatar" is established through (Address <-> (My Avatar) <-> NFT). Any dApp can display avatars for users based on this relationship. Users can define similar relationships such as “My Shoes” and “My identity”.
+
+The public space allows users to define, classify, and identify metadata by their meanings and data structures.
+
+Data in one category can be considered as one type of metadata expressing the same meaning. For instance, data in the “Avatar” category represent NFTs with the attribute of “User current avatar”. It is also possible to configure an attribute of “Immutable” for metadata in POD. Through these functionalities, we can classify data and create attributes by any matric for them.
+
+### Cross-platform Consistency
+
+First, POD database is on the blockchain. Metadata classification and access are enabled by deploying contracts on different blockchain networks to ensure data definition methods and low-level data structures are following the same standard, so as to ensure the consistency of metadata using in different contracts and apps. Second, POD offers a POD-Bridge to ensure the interoperability of metadata and the consistency of their classifications. 
 
 ## Benefits
 
-### Aggregate Data and Categorized
+ 
 
-Users can define a dataset on the POD
+### For Data Providers
 
-- The data service can publish data to this dataset.
+- A new, non-transferable data tagging model
+- A public space to define data across all networks
+- A public space to access data across all networks
+- Increased data reusability and brought by the public space that can prevent repeated data cleansing and storage
+- A data toolchain to save costs for development and data interaction
+- An infrastructure connecting platforms and networks, offering users more choices, and reducing implementation costs on different chains
+- A negotiation platform for data abstraction and standardization throughout the industry
 
-- Upstream applications can find the dataset in the POD category by the name of the dataset.
+### For Data Consumers
 
-### Simpler and cheaper
+- A public and trusted third-party data collaboration platform
+- Metadata sources that are convenient to access and validate
+- Accurately identify users and precisely divide on-chain entities 
+- The possibility of business division and specialization
+- Custom programming empowered by data operation and management based on data classification and aggregation
 
-- Data tool chains
-  POD will provide various tool chains to support the entire life cycle of data. Providing data services or using data no longer requires professional smart contract or chain knowledge.
 
-- Multi-chain and unified data interface
+## Look to the Future
 
-  Through the abstraction and interface unification of the underlying chain through POD, users no longer need to care about the technical details of the underlying chain but pay more attention to their own business.
+POD enables a layer that stores and classifies on-chain data and their metadata by allowing users to store data as objects. This layer bridges together different contracts and blockchains, hence data defined and stored in POD are available to contracts and users across all networks. As we gradually establish cooperation with more blockchain networks, POD will evolve into an open and trustworthy unified data infrastructure which empowers data communication throughout the blockchain world. It is expected to see more UGC and data interactions. 
 
-- More flexible data management methods
-  POD allows any data to be bound to any object at any time. Through the isolation of third-party databases, data design patterns and management methods are more flexible. Data changes only affect the database, without asset security.
-
-### Easy to collaboration
-
-- Through the standardization of the data environment, such as interactive interfaces, encoding methods, data schema definition and storage methods, permission management methods, notification methods, etc., data adopters obtain data and use data in the same way, and further can negotiate data standards.
-- As an open source, transparent, and Trusted third-party database, collaborative data can be safely placed, and the security boundary will be very clear. Through this physical isolation, data changes only affect the content of the database, with no asset security.
+Looking ahead, we hope to bring different parties together and establish a collaborative dialogue, so as to inspire the decentralized community to arrive at an agreed data collaboration standard in a bottom-up manner. The standard potentially includes but is not limited to major data categories, major data attributes, data storage solutions for different purposes, transmission interface design, and so on. One the one hand, users can leverage this standard to seamlessly work with data from any network. On the other hand, they still have the freedom to tailor the standard practice according to their own businesses and needs. Thereby, we expect to standardize the metadata environment through POD to drive metadata sorting and on-chain entity categorization to allow for more focused business models, more specialized segmentations, and data standards for high-level businesses to bring about broader, more flexible, and more segmented business collaboration opportunities for the metaverse.

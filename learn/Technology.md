@@ -54,7 +54,7 @@ This is the structure of TagClass and TagClassInfo:
 
 ```solidity
 struct TagClass {
-   bytes20 ClassId;
+   bytes18 ClassId;
    uint8 Version;
    address Owner;
    bytes FieldTypes;
@@ -64,7 +64,7 @@ struct TagClass {
 }
 
 struct TagClassInfo {
-   bytes20 ClassId;
+   bytes18 ClassId;
    uint8 Version;
    string TagName;
    string FieldNames;
@@ -74,7 +74,7 @@ struct TagClassInfo {
 
 | Field | Type | Description |
 | ------------- | ------------- |------------- |
-| ClassId | `bytes20` | The ID of this TagClass |
+| ClassId | `bytes18` | The ID of this TagClass |
 | Version |`uint8`| The version of this TagClass|
 | Owner |`address`| TagClass Owner's address|
 | FieldTypes |`bytes`| Hexadecimal numbers representing field types supported by this TagClass|
@@ -123,7 +123,7 @@ enum TagFieldType {
 ```
 For example:
 
-1. `0x0103` represents two values, a `bool` and a `UInt16`; 
+1. `0x0003` represents two values, a `bool` and a `UInt16`; 
 2. `0x1507` represents an `Int8Array`;
 
 Please note:
@@ -214,7 +214,7 @@ struct Tag {
 | ------------- | ------------- |------------- |
 | TagId | `bytes20` | An ID generated using the TagClass ID and TagObject which this Tag belongs to |
 | Version | `uint8` | Version of the Tag |
-| ClassId | `bytes20` | ClassId of the TagClass that this Tag belongs to|
+| ClassId | `bytes18` | ClassId of the TagClass that this Tag belongs to|
 | ExpiredAt | `uint32` | A 4-byte value indicating expiration time; or "0" meaning never expires|
 | Data | `bytes` | The serialized data point |
 

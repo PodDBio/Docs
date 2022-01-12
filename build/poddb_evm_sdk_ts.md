@@ -14,7 +14,11 @@ yarn add poddb-evm-sdk-ts
 
 ## Contract Address
 
-Testnet
+**Mainnet**
+
+Coming soon.
+
+**Testnet**
 
 | Chain | Contract | Address |
 | ------------- | ------------- |------------- |

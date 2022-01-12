@@ -4,7 +4,7 @@
 
 ### Mainnet
 
-Waiting to deploy.
+Coming soon.
 
 ### Testnet
 
@@ -21,5 +21,5 @@ Waiting to deploy.
 
 ## SDKs
 
-### [PodDB-EVM-SDK-TS](build/poddb_evm_sdk_ts.md)
-A development tool for PodDB that deployed in EVM-compatible blockchain.
+### [POD EVM TS SDK](build/poddb_evm_sdk_ts.md)
+This SDK is a tool for developers to interact with POD contracts deployed on EVM-compatible blockchain networks.

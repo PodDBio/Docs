@@ -1,4 +1,4 @@
-- Introduction
+- Learn
 	- [Lightpaper](learn/README.md)
 	- [Technology](learn/Technology.md)
 - Build

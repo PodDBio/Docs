@@ -134,18 +134,6 @@ The `array` type is supported (not nested), but the `structure` type is not.
 
 `FieldTypes` and `FieldNames` can be empty if TagClass does not need to store any data.
 
-You can use the `TagClassFieldBuilder` class to define field types.
-
-Below example illustrates how to create a TagClass with 2 fields:
-
-```typescript
-const fieldBuilder = new TagClassFieldBuilder();
-fieldBuilder.put("f1", TagFieldType.String);
-fieldBuilder.put("f2", TagFieldType.Uint32);
-const fieldTypes = fieldBuilder.getFieldTypes();
-const fieldNames = fieldBuilder.getFieldNames();
-```
-
 ### Set Agent
 
 Only the owner of TagClass has write-permission. But a TagClass Owner and can delegate write permissions to a TagAgent.
@@ -172,19 +160,20 @@ const tagClassContract = (
     await TagClassContract.getTagClassContractV1(provider, 'TagClassContractAddress')
 ).connectSigner(signer);
 
-//build tagClassField
-const fieldBuilder = new TagClassFieldBuilder();
-//Put field number, as you need
-fieldBuilder.put('field1', TagFieldType.String);
-fieldBuilder.put('field2', TagFieldType.Uint8);
-
 const agent = TagAgent.fromAddress('address');
-
 const newTagClassTx = await tagClassContract.newValueTagClass(
     'TagClassName',
-    fieldBuilder.getFieldNames(),
-    fieldBuilder.getFieldTypes(),
     'TagClassDesc',
+    [
+        {
+            fieldName: 'field1',
+            fieldType: TagFieldType.String,
+        },
+        {
+            fieldName: 'field2',
+            fieldType: TagFieldType.Uint8,
+        },
+    ],
     {
         agent,
     },
@@ -297,10 +286,9 @@ const tagClass = await tagClassContract.getTagClass(tagClassId);
 const tagClassInfo = await tagClassContract.getTagClassInfo(tagClassId);
 
 //parse data
-const dataParser = new TagDataParser(tagClassInfo!.FieldNames, tagClass!.FieldTypes, tag!.Data);
+const dataParser = new TagDataParser(tagClassInfo!.fieldNames, tagClass!.fieldTypes, tag!.data);
 const field1 = dataParser.get('field1')!.getString(); //or get other types
 const field2 = dataParser.get('field2')!.getNumber(); //or get other types
-
 ```
 
 ## Delete Tag
@@ -329,25 +317,10 @@ const tagClassContract = (
     await TagClassContract.getTagClassContractV1(provider, 'TagClassContractAddress')
 ).connectSigner(signer);
 
-//build tagClassField
-const fieldBuilder = new TagClassFieldBuilder();
-//Put field number, as you need
-fieldBuilder.put('field1', TagFieldType.String);
-fieldBuilder.put('field2', TagFieldType.Uint8);
-
-const agent = TagAgent.fromAddress('address');
-
-const newTagClassTx = await tagClassContract.newValueTagClass(
-    'TagClassName',
-    fieldBuilder.getFieldNames(),
-    fieldBuilder.getFieldTypes(),
-    'TagClassDesc',
-    {
-        agent: agent,
-    },
-);
-newTagClassTx.wait(); //Waiting for transaction confirmation
-
+const tagClassId = 'xxx';
+const newAgent = TagAgent.fromAddress('agentAddress');
+const updateTagClassTx = await tagClassContract.updateValueTagClass(tagClassId, DefaultTagClassFlags, newAgent);
+updateTagClassTx.wait();
 ```
 
 ### TagClassFlags
@@ -379,9 +352,9 @@ const tagClassContract = (
 
 const tagClassId = 'xxx';
 let tagClass = await tagClassContract.getTagClass(tagClassId);
-tagClass!.Flags = new TagClassFlagsBuilder(tagClass?.Flags).setDeprecatedFlag().build();
+tagClass!.flags = new TagClassFlagsBuilder(tagClass?.flags).setDeprecatedFlag().build();
 
-const updateTagClassTx = await tagClassContract.updateValueTagClass(tagClassId, tagClass!.Flags, tagClass!.Agent);
+const updateTagClassTx = await tagClassContract.updateValueTagClass(tagClassId, tagClass!.flags, tagClass!.agent);
 updateTagClassTx.wait();
 ```
 

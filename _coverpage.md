@@ -1,6 +1,6 @@
 # PodDBio
 
-An Public Onchain Database
+A Public Onchain Database
 
 [<i class="iconfont icon-github"></i> GitHub](https://github.com/PODDBio/docs)
 [Start <i class="iconfont icon-down"></i>](#main)

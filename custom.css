@@ -5,7 +5,7 @@ section.cover.has-mask .mask {
 }
 
 section.cover h1 .anchor span{
-  font-family: 'Lobster', cursive;
+  font-family: 'Questrial', cursive;
   color: var(--theme-color);
 }
 
@@ -14,7 +14,7 @@ section.cover .cover-main>p:last-child a .iconfont {
 }
 
 .sidebar>h1 a {
-  font-family: 'Lobster', cursive;
+  font-family: 'Questrial', cursive;
 }
 
 /* override default text color */

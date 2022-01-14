@@ -1,4 +1,4 @@
-# PodDBio
+# PodDB
 
 A Public Onchain Database
 

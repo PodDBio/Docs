@@ -2,7 +2,7 @@
 
 This SDK is a tool for developers to interact with POD contracts deployed on EVM-compatible blockchain networks.
 
-For more information about PodDB, see [this doc](https://poddbio.github.io/Docs/#/learn/Technology).
+For more information about POD, see [this doc](https://poddbio.github.io/Docs/#/learn/Technology).
 
 ## Installation
 

@@ -2,7 +2,7 @@
 
 POD’s two major components are the on-chain contract and the off-chain data indexer. The picture below illustrates how they interact:
 
-![PodDB architecture](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/pod_inforgraphic.png)
+![POD architecture](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/pod_inforgraphic.png)
 
 ## 1.1. On-chain Contract
 

@@ -1,6 +1,6 @@
-# PodDB
+# POD
 
-A Public Onchain Database
+A Database For Metadata
 
 [<i class="iconfont icon-github"></i> GitHub](https://github.com/PODDBio/docs)
 [Start <i class="iconfont icon-down"></i>](#main)

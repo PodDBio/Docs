@@ -2,7 +2,7 @@
 
 This SDK is a tool for developers to interact with POD contracts deployed on EVM-compatible blockchain networks.
 
-For more information about POD, see [this doc](https://poddbio.github.io/Docs/#/learn/Technology).
+For more information about PodDB, see [this doc](https://poddbio.github.io/Docs/#/learn/Technology).
 
 ## Installation
 
@@ -18,23 +18,29 @@ yarn add poddb-evm-sdk-ts
 
 | Chain | Contract | Address |
 | ------------- | ------------- |------------- |
-| Polygon|TagClass|0x2D606CedEb061AA491F4D4AeaD6f02930A9B5600|
-| Polygon|Tag|0x0d2D5549102044D4B8dDa7F608F2d692C39eB467|
+| Polygon|Storage|0xabE843DB2698BE671B79A0e4498ACB1b9B467E3b|
+| Polygon|TagClass|0x9b2117F8B4801fac048b14F55162c94C1132A6DF|
+| Polygon|Tag|0x3592304e2b3B8d37B0FFB23aA56C7CFF1a2f30C4|
 
 **Testnet**
 
 | Chain | Contract | Address |
 | ------------- | ------------- |------------- |
-| ETH(Rinkeby)|TagClass|0x0EC77Da842Bd72a88378d5b0DBa7dd7fF0B525C7|
-| ETH(Rinkeby)|Tag|0x78FdcF13bCaec0EaeFd225316df978E24c584E3B|
-| BSC|TagClass|0x1E94Bb8168B20AaE7da2b4072c3136f7f68093c4|
-| BSC|Tag|0x67b75CaC3CEEa80A68c622aAA5Ee022d4E139ff0|
-| AVAX|TagClass|0x1A2b3E7945A73E782cE3cC117F8199E2030f70Eb|
-| AVAX|Tag|0xEE122D2A6ECd381E312911f30bA2739a8e3841fA|
-| FTM|TagClass|0x462B75b54673f0Ac5E812707DbcEe55D2C906A92|
-| FTM|Tag|0x74134A463370d272E08f1bD7A0b64883fD9d62C6|
-| Polygon|TagClass|0xBCC70346547A825E03F98ED6d2c5dF246AE09b5C|
-| Polygon|Tag|0x9D92B04811376bB133E155c9420c91E6A7FA9B8B|
+| ETH(Rinkeby)|Storage|0x464C583F6Bc0B3FcB77d7A26534473B18EC6Eb24|
+| ETH(Rinkeby)|TagClass|0x65e75e5130A2D95cDD236065C7078CAA711fAa9d|
+| ETH(Rinkeby)|Tag|0xECa7E1B937d99d2764C601F34eD1EF58BEE577c4|
+| BSC|Storage|0x2eF3d463da85F48F0D8A9A059087C98c31D21Bb6|
+| BSC|TagClass|0xD5341cc8B1BC711CEf0802D4Da97e7D341e9B1D2|
+| BSC|Tag|0xc126d23e45b7d1cAF93f3c0A2B0aC13b860d1533|
+| FTM|Storage|0xE4105E2219d820C43AC3dAC39cBE74beFA54eb5C|
+| FTM|TagClass|0xfabBEaB199A69F61b603D09AA9066232f2920bD9|
+| FTM|Tag|0x9f1ECa2b257150Ea6F71376e0CECa2548B911Dc3|
+| AVAX|Storage|0xBe583C3BB299F4eA1ed5455637E96c01035ecbf5|
+| AVAX|TagClass|0x680aAf372d64b0E9c90426Ec53c663DF75d95bFf|
+| AVAX|Tag|0x5dB4eC88Ac69F03F0246606C55cb9FbC6c279d61|
+| Polygon(Mumbai)|Storage|0xf85893be8DbC59eAa416A5781D1b8C9F49398aa4|
+| Polygon(Mumbai)|TagClass|0x6CCAa2796C4c28AA76f36A3bc8A56c7D9b8Fae47|
+| Polygon(Mumbai)|Tag|0x1Af4311CE1619b1e3f4921EEb7247673d945C8f0|
 
 ## Connect to POD Contract
 
@@ -44,7 +50,7 @@ To connect to POD contracts, first you need an Ethereum provider object, which c
 
 ```typescript
 const provider = new ethers.providers.JsonRpcProvider(
-'http://127.0.0.1:8545', //ethereum node rpc url
+    'http://127.0.0.1:8545', //ethereum node rpc url
 );
 ```
 
@@ -57,8 +63,6 @@ const AVAXMainnetDefaultRpcUrl = 'https://api.avax.network/ext/bc/C/rpc';
 const AVAXTestnetDefaultRpcUrl = 'https://api.avax-test.network/ext/bc/C/rpc';
 const FTMMainnetDefaultRpcUrl = 'https://rpcapi.fantom.network';
 const FTMTestnetDefaultRpcUrl = 'https://rpc.testnet.fantom.network/';
-const PolygonMainnetDefaultRpcUrl = 'https://polygon-rpc.com/';
-const PolygonTestnetDefaultRpcUrl = 'https://rpc-mumbai.matic.today';
 ```
 
 If you use a web browser, you can obtain the provider by sending requests to a wallet plugin such as MetaMask:
@@ -72,7 +76,7 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 Connect to a POD's tag contract and tagClass contract:
 
 ```typescript
-const tagContract = await TagClassContract.getTagContractV1(provider, 'TagContractAddress');
+const tagContract = await TagContract.getTagContractV1(provider, 'TagContractAddress');
 const tagClassContract = await TagClassContract.getTagClassContractV1(provider, 'TagClassContractAddress');
 ```
 
@@ -82,8 +86,8 @@ If you need to send transactions, for example to create a TagClass or a Tag, you
 
 ```typescript
 const signer = new ethers.Wallet(
-'0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', //private key
-provider,
+    '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80', //private key
+    provider,
 );
 ```
 
@@ -198,9 +202,9 @@ If you write data for one TagObject and TagClass more than once, the new data ov
 
 ```typescript
 export enum ObjectType {
-  Address,
-  NFT,
-  TagClass,
+    Address,
+    NFT,
+    TagClass,
 }
 ```
 
@@ -216,14 +220,14 @@ You can use the `WriteBuffer` to obtain defined types and serialize data accordi
 
 ```typescript
 const tagData = new WriteBuffer()
-.writeBool(true)
-.writeUint256(
-    ethers.BigNumber.from(
-        "0x56ee41124a9af6b8590735ac413711e05faa6dc2b80f1e5d0cf7a5873ed36947"
+    .writeBool(true)
+    .writeUint256(
+        ethers.BigNumber.from(
+            "0x56ee41124a9af6b8590735ac413711e05faa6dc2b80f1e5d0cf7a5873ed36947"
+        )
     )
-)
-.writeArray([true, false], TagFieldType.Bool)
-.getBytes();
+    .writeArray([true, false], TagFieldType.Bool)
+    .getBytes();
 ```
 
 ### Expiration Time
@@ -242,6 +246,37 @@ const tagObject = TagObject.fromAddress('address');
 const data = new WriteBuffer().writeString('Hello').writeUint8(16).getBytes();
 const setTagTx = await tagContract.setTag(tagClassId, tagObject, data, {
     expiredTime: 0, //Expiration time of tag in seconds, 0 means never expires
+});
+
+setTagTx.wait();
+```
+
+## SetTagWithSig
+
+Owner and Agent can directly construct and sign a SetTag transaction. Alternatively, Pod also allows Owner or Agent to sign the data contained in a SetTag, and then users to construct and send the SetTag transaction.
+This provides a solution to the situation where only Owner and Agent can construct and send a SetTag transaction. It allows for more flexibility in terms of business logics.
+
+**Example**
+
+```typescript
+const tagContract = (await TagContract.getTagContractV1(provider, 'TagContractAddress')).connectSigner(signer);
+
+const tagClassId = 'xxx';
+const tagObject = TagObject.fromAddress('address');
+const data = new WriteBuffer().writeString('Hello').writeUint8(16).getBytes();
+
+//fetch signature from owner of agent;
+const signer = new ethers.Wallet(
+    "ownerOrAgent's private", //private key of owner or agent
+    provider,
+);
+const signature = tagContract.getSignatureForSetTag(signer, tagClassId, tagObject, data,{
+    expiredTime: 0, //Expiration time of tag in seconds, 0 means never expires
+});
+
+const setTagTx = await tagContract.setTag(tagClassId, tagObject, data, {
+    expiredTime: 0, //Expiration time of tag in seconds, 0 means never expires
+    signature
 });
 
 setTagTx.wait();
@@ -293,7 +328,7 @@ const tagClass = await tagClassContract.getTagClass(tagClassId);
 const tagClassInfo = await tagClassContract.getTagClassInfo(tagClassId);
 
 //parse data
-const dataParser = new TagDataParser(tagClassInfo!.fieldNames, tagClass!.fieldTypes, tag!.data);
+const dataParser =  tag!.parseData(tagClass!.fieldTypes,tagClassInfo!.fieldNames);
 const field1 = dataParser.get('field1')!.getString(); //or get other types
 const field2 = dataParser.get('field2')!.getNumber(); //or get other types
 ```
@@ -310,6 +345,31 @@ const tagContract = (await TagContract.getTagContractV1(provider, 'TagContractAd
 const tagClassId = 'xxx';
 const tagObject = TagObject.fromAddress('address');
 const deleteTx = await tagContract.deleteTag(tagClassId, tagObject);
+deleteTx.wait();
+```
+
+## DeleteTagWithSig
+
+DeleteTagWith allow to delete a tag via the signature of owner or agent.
+
+**Example**
+
+```typescript
+const tagContract = (await TagContract.getTagContractV1(provider, 'TagContractAddress')).connectSigner(signer);
+
+const tagClassId = 'xxx';
+const tagObject = TagObject.fromAddress('address');
+
+//fetch signature from owner of agent;
+const signer = new ethers.Wallet(
+    "ownerOrAgent's private", //private key of owner or agent
+    provider,
+);
+const signature = tagContract.getSignatureForDeleteTag(signer, tagClassId, tagObject);
+
+const deleteTx = await tagContract.deleteTag(tagClassId, tagObject, {
+    signature
+});
 deleteTx.wait();
 ```
 

@@ -1,6 +1,6 @@
 # 1. Architecture
 
-POD’s two major components are the on-chain contract and the off-chain data indexer. The picture below illustrates how they interact:
+POD’s two major components are the on-chain contract and the off-chain data Explorer. The picture below illustrates how they interact:
 
 ![POD architecture](https://raw.githubusercontent.com/PodDBio/Docs/master/pic/pod_inforgraphic.png)
 
@@ -8,9 +8,9 @@ POD’s two major components are the on-chain contract and the off-chain data in
 
 The on-chain contract serves as a database where data is stored after being serialized. It provides functions and interfaces to define, store and access data.
 
-## 1.2. Off-chain Data Indexer
+## 1.2. Off-chain Data Explorer
 
-Data in on-chain contracts are synchronized to the off-chain indexer. Customer dApps can query all kinds of data through the off-chain data indexer.
+Data in on-chain contracts are synchronized to the off-chain Explorer. Customer dApps can query all kinds of data through the off-chain data Explorer.
 
 # 2. Data Storage Structure
 

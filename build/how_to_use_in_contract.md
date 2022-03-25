@@ -37,18 +37,14 @@ contract Reputation is Ownable {
         //create reputation tagClass;
         Helper.TagClassFieldBuilder memory builder;
         builder.init().put("Score", IPodCore.TagFieldType.Uint16, false);
-        string memory tagClassName = "reputation";
-        string memory tagClassDesc = "Reputation for user";
-        uint8 tagClassFlags = 0;
-        IPodCore.TagAgent memory agent;
-        ReputationTagClassId = _TagClass.newValueTagClass(
-            tagClassName,
-            builder.getFieldNames(),
-            builder.getFieldTypes(),
-            tagClassDesc,
-            tagClassFlags,
-            agent
-        );
+        
+        ITagClass.NewValueTagClassParams memory params;
+        params.TagName = "reputation";
+        params.Desc = "Reputation for user";
+        params.FieldNames = builder.getFieldNames();
+        params.FieldTypes = builder.getFieldTypes();
+
+        ReputationTagClassId = _TagClass.newValueTagClass(params);
     }
 }
 ```
